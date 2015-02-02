@@ -78,11 +78,12 @@ moveBlock (Rotate CCW) block = rotateLeft block
 
 clearLines :: Int -> Board -> Board
 clearLines width board = 
-  head . groupList . sortList $ board
+  concat . clearFull . groupList . sortList $ board
   where
     yVec = snd . squareLoc
     sortList = sortBy (compare `on` yVec)
     groupList = groupBy ((==) `on` yVec)
+    clearFull = filter ((/=) width . length)
 
 
 type WorldState m = StateT World m
